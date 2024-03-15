@@ -62,7 +62,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
             _allInvestments.length
         );
         unchecked {
-            for (uint256 i = 0; i < _allInvestments.length; i++) {
+            for (uint256 i = 0; i < _allInvestments.length; ++i) {
                 investments[i] = getInvestment[_allInvestments[i]];
             }
         }
@@ -76,7 +76,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
             _investmentsOf[trader].length
         );
         unchecked {
-            for (uint256 i = 0; i < _investmentsOf[trader].length; i++) {
+            for (uint256 i = 0; i < _investmentsOf[trader].length; ++i) {
                 investments[i] = getInvestment[_investmentsOf[trader][i]];
             }
         }
@@ -100,7 +100,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
         unchecked {
-            for (uint256 i = 0; i < traders.length; i++) {
+            for (uint256 i = 0; i < traders.length; ++i) {
                 _isTrader[traders[i]] = true;
             }
         }
@@ -113,7 +113,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
         unchecked {
-            for (uint256 i = 0; i < traders.length; i++) {
+            for (uint256 i = 0; i < traders.length; ++i) {
                 _isTrader[traders[i]] = false;
             }
         }
