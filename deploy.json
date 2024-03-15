@@ -1,7 +1,7 @@
 {
 	"bsctestnet": {
-		"contracts/core/GefionFactory.sol:GefionFactory": "0x34eBD9f9B082a83261820B1B4E5b10F8E245367f",
-		"contracts/core/GefionRouter.sol:GefionRouter": "0x31733aA3A12022EE801bA424965C3715C7AD6073",
-		"contracts/token/USDT.sol:USDT": "0x30E3B65398018071008fB72b0AA4D9Cd1115c5e0"
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x90a30c7d81d6bCc331EcF9ddfE2916D5a69D8284",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x8Ed7f91Fe1Cb17D2CCed79B2a3BE350cEbeaa31A",
+		"contracts/token/USDT.sol:USDT": "0x1Dd0B194A44F38b87221A78Bd3900f2a585eaFd3"
 	}
 }

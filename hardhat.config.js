@@ -172,7 +172,11 @@ module.exports = {
       gas: 5500000,
       accounts: { mnemonic: MNEMONIC }
     },
-    hardhat: {},
+    hardhat: {
+      accounts: { mnemonic: MNEMONIC },
+      gasLimit: 6000000000,
+      defaultBalanceEther: 1000,
+    },
     localhost: {
       url: "http://127.0.0.1:7545",
       accounts: { mnemonic: MNEMONIC },

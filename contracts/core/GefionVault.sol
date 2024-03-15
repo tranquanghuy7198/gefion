@@ -79,9 +79,10 @@ contract GefionVault is IGefionVault, GefionToken {
     }
 
     function receivable(uint256 liquidity) public view returns (uint256) {
-        return
-            (liquidity * IERC20(currency).balanceOf(address(this))) /
-            totalSupply();
+        uint256 vaultBalance = 0;
+        if (currency == address(0)) vaultBalance = address(this).balance;
+        else vaultBalance = IERC20(currency).balanceOf(address(this));
+        return (liquidity * vaultBalance) / totalSupply();
     }
 
     // Vault owner adds new traders

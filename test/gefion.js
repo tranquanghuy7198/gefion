@@ -7,6 +7,7 @@ const VAULT = "GefionVault";
 const ROUTER = "GefionRouter";
 const FACTORY = "GefionFactory";
 const USDT = "USDT";
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 before("Deploy contracts", async () => {
   // Prepare parameters
@@ -60,7 +61,7 @@ describe("Test contracts", () => {
     expect(routerAddress).to.equal(this.routerContract.address);
   });
 
-  it("Vault owner creates a new vault and adds traders", async () => {
+  it("Vault owner creates a new USDT vault and adds traders", async () => {
     const tx = await this.factory
       .connect(this.vaultOwner)
       .attach(this.factoryContract.address)
@@ -76,6 +77,24 @@ describe("Test contracts", () => {
       .connect(this.vaultOwner)
       .attach(this.routerContract.address)
       .addTraders(this.usdtContract.address, [this.trader.address]);
+  });
+
+  it("Vault owner creates a new ETH (native) vault and adds traders", async () => {
+    const tx = await this.factory
+      .connect(this.vaultOwner)
+      .attach(this.factoryContract.address)
+      .createVault(
+        ZERO_ADDRESS,
+        "ETH Liquidity",
+        "ETH-LP",
+        2500
+      );
+    const events = (await tx.wait()).events;
+    this.nativeVaultContract = this.vaultFactory.attach(events[0]?.args?.vault);
+    await this.routerFactory
+      .connect(this.vaultOwner)
+      .attach(this.routerContract.address)
+      .addTraders(ZERO_ADDRESS, [this.trader.address]);
   });
 
   it("Investor invests 20 USDT", async () => {
@@ -147,5 +166,61 @@ describe("Test contracts", () => {
       );
     const investorUsdtBalance = await this.usdtContract.balanceOf(this.investor1.address);
     expect(investorUsdtBalance.toString()).to.equal(hre.ethers.utils.parseEther("1001"));
+  });
+
+  it("Investor invests 15 ETH", async () => {
+    await this.routerFactory
+      .connect(this.investor2)
+      .attach(this.routerContract.address)
+      .invest(
+        this.vaultOwner.address,
+        ZERO_ADDRESS,
+        hre.ethers.utils.parseEther("15"),
+        { value: hre.ethers.utils.parseEther("15") }
+      );
+    const routerNativeBalance = await hre.waffle.provider.getBalance(this.routerContract.address);
+    const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
+    expect(routerNativeBalance.toString()).to.equal("0");
+    expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("15"));
+  });
+
+  it("Trader borrows 5 ETH", async () => {
+    await this.routerFactory
+      .connect(this.trader)
+      .attach(this.routerContract.address)
+      .borrow(
+        this.vaultOwner.address,
+        ZERO_ADDRESS,
+        hre.ethers.utils.parseEther("5")
+      );
+    const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
+    expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("10"));
+  });
+
+  it("Trader repays 4 ETH", async () => {
+    const traderInvestmentHistory = await this.nativeVaultContract.traderInvestmentHistory(this.trader.address);
+    await this.routerFactory
+      .connect(this.trader)
+      .attach(this.routerContract.address)
+      .repay(
+        this.vaultOwner.address,
+        ZERO_ADDRESS,
+        traderInvestmentHistory[0]?.id,
+        hre.ethers.utils.parseEther("4"),
+        { value: hre.ethers.utils.parseEther("4") }
+      );
+    const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
+    expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("14"));
+  });
+
+  it("Investor redeems all liquidity", async () => {
+    await this.routerFactory
+      .connect(this.investor2)
+      .attach(this.routerContract.address)
+      .redeem(
+        this.vaultOwner.address,
+        ZERO_ADDRESS,
+        hre.ethers.utils.parseEther("15")
+      );
   });
 });
