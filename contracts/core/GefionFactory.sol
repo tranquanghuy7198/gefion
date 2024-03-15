@@ -4,9 +4,9 @@ pragma solidity 0.8.15;
 
 import "../interfaces/IGefionFactory.sol";
 import "./GefionVault.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable2Step.sol";
 
-contract GefionFactory is IGefionFactory, Ownable {
+contract GefionFactory is IGefionFactory, Ownable2Step {
     address public router;
     mapping(address => mapping(address => address)) public override getVault;
     address[] private _allVaults;
