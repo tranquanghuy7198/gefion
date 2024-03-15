@@ -3,7 +3,6 @@
 pragma solidity 0.8.15;
 
 import "../interfaces/IGefionFactory.sol";
-import "../interfaces/IGefionToken.sol";
 import "../interfaces/IGefionVault.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
