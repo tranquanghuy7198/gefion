@@ -6,9 +6,11 @@ import "../interfaces/IGefionVault.sol";
 import "./GefionToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     using SafeERC20 for IERC20;
+    using EnumerableSet for EnumerableSet.AddressSet;
 
     struct Investment {
         bytes32 id;
@@ -30,7 +32,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
 
     bytes32[] private _allInvestments;
     mapping(address => bytes32[]) private _investmentsOf;
-    mapping(address => bool) private _isTrader;
+    EnumerableSet.AddressSet private _traders;
 
     constructor(
         address creator,
@@ -57,14 +59,17 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         _;
     }
 
+    function listTraders() external view returns (address[] memory) {
+        return _traders.values();
+    }
+
     function investmentHistory() external view returns (Investment[] memory) {
         Investment[] memory investments = new Investment[](
             _allInvestments.length
         );
         unchecked {
-            for (uint256 i = 0; i < _allInvestments.length; ++i) {
+            for (uint256 i = 0; i < _allInvestments.length; ++i)
                 investments[i] = getInvestment[_allInvestments[i]];
-            }
         }
         return investments;
     }
@@ -76,9 +81,8 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
             _investmentsOf[trader].length
         );
         unchecked {
-            for (uint256 i = 0; i < _investmentsOf[trader].length; ++i) {
+            for (uint256 i = 0; i < _investmentsOf[trader].length; ++i)
                 investments[i] = getInvestment[_investmentsOf[trader][i]];
-            }
         }
         return investments;
     }
@@ -100,9 +104,8 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
         unchecked {
-            for (uint256 i = 0; i < traders.length; ++i) {
-                _isTrader[traders[i]] = true;
-            }
+            for (uint256 i = 0; i < traders.length; ++i)
+                _traders.add(traders[i]);
         }
     }
 
@@ -113,9 +116,8 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
         unchecked {
-            for (uint256 i = 0; i < traders.length; ++i) {
-                _isTrader[traders[i]] = false;
-            }
+            for (uint256 i = 0; i < traders.length; ++i)
+                _traders.remove(traders[i]);
         }
     }
 
@@ -158,7 +160,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address trader,
         uint256 amount
     ) external nonReentrant onlyRouter {
-        require(_isTrader[trader], "GefionVault: Not GefionVault trader");
+        require(
+            _traders.contains(trader),
+            "GefionVault: Not GefionVault trader"
+        );
         bytes32 investmentId = keccak256(
             abi.encodePacked(trader, amount, block.timestamp)
         );
