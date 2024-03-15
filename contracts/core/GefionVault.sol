@@ -5,8 +5,9 @@ pragma solidity ^0.8.15;
 import "../interfaces/IGefionVault.sol";
 import "./GefionToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract GefionVault is IGefionVault, GefionToken {
+contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     struct Investment {
@@ -111,7 +112,7 @@ contract GefionVault is IGefionVault, GefionToken {
     function invest(
         address investor,
         uint256 amount
-    ) external payable onlyRouter {
+    ) external payable onlyRouter nonReentrant {
         capital += amount;
         _mint(investor, amount);
         if (currency == address(0)) {
@@ -127,7 +128,10 @@ contract GefionVault is IGefionVault, GefionToken {
     }
 
     // Investor redeems liquidity and receives money
-    function redeem(address investor, uint256 liquidity) external onlyRouter {
+    function redeem(
+        address investor,
+        uint256 liquidity
+    ) external onlyRouter nonReentrant {
         uint256 receivableAmount = receivable(liquidity);
         _burn(investor, liquidity);
         if (currency == address(0)) {
@@ -139,7 +143,10 @@ contract GefionVault is IGefionVault, GefionToken {
     }
 
     // Trader borrows money from the vault to trade
-    function borrow(address trader, uint256 amount) external onlyRouter {
+    function borrow(
+        address trader,
+        uint256 amount
+    ) external onlyRouter nonReentrant {
         require(_isTrader[trader], "GefionVault: Not GefionVault trader");
         bytes32 investmentId = keccak256(
             abi.encodePacked(trader, amount, block.timestamp)
@@ -165,7 +172,7 @@ contract GefionVault is IGefionVault, GefionToken {
         address trader,
         bytes32 investmentId,
         uint256 amount
-    ) external payable onlyRouter {
+    ) external payable onlyRouter nonReentrant {
         // Update investment info
         Investment storage investment = getInvestment[investmentId];
         require(

@@ -26,7 +26,7 @@ After each deployment, the address of the deployed contract is automatically wri
 
 > test/gefion.js
 
-This is the JS file used to test Gefion smart contracts. It contains 6 test-cases which simulate the activities of investing, borrowing, repaying and redeeming in Gefion vaults.
+This is the JS file used to test Gefion smart contracts. It contains 11 test-cases which simulate the activities of investing, borrowing, repaying and redeeming in Gefion vaults.
 
 ### Tools
 
