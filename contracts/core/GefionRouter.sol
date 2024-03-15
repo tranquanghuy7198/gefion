@@ -14,7 +14,10 @@ contract GefionRouter is Ownable {
     address public immutable factory;
 
     constructor(address factory_) {
-        require(msg.sender == Ownable(factory_).owner());
+        require(
+            msg.sender == Ownable(factory_).owner(),
+            "GefionRouter: invalid router deployer"
+        );
         factory = factory_;
     }
 
