@@ -124,7 +124,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address investor,
         uint256 amount
     ) external payable nonReentrant onlyRouter {
-        capital += amount;
+        capital = capital + amount;
         _mint(investor, amount);
         if (currency == address(0)) {
             require(msg.value >= amount, "GefionVault: insufficient payment");
@@ -199,7 +199,8 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
                     traderSharingRate) /
                 10000;
         }
-        interest +=
+        interest =
+            interest +
             int256(investment.repayAmount) -
             int256(investment.borrowAmount);
         if (currency == address(0)) {

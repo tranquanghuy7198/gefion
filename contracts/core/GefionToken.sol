@@ -39,7 +39,7 @@ abstract contract GefionToken is IGefionToken, ERC20 {
         bytes32 r,
         bytes32 s
     ) external override {
-        require(deadline >= block.timestamp, "GefionToken: EXPIRED");
+        require(deadline > block.timestamp, "GefionToken: EXPIRED");
         bytes32 digest = keccak256(
             abi.encodePacked(
                 "\x19\x01",
