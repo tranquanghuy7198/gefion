@@ -33,6 +33,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     bytes32[] private _allInvestments;
     mapping(address => bytes32[]) private _investmentsOf;
     EnumerableSet.AddressSet private _traders;
+    EnumerableSet.AddressSet private _investors;
 
     constructor(
         address creator,
@@ -61,6 +62,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
 
     function listTraders() external view returns (address[] memory) {
         return _traders.values();
+    }
+
+    function listInvestors() external view returns (address[] memory) {
+        return _investors.values();
     }
 
     function investmentHistory() external view returns (Investment[] memory) {
@@ -126,6 +131,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address investor,
         uint256 amount
     ) external payable nonReentrant onlyRouter {
+        if (!_investors.contains(investor)) _investors.add(investor);
         capital = capital + amount;
         _mint(investor, amount);
         if (currency == address(0)) {
