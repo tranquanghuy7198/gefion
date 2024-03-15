@@ -175,10 +175,8 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     ) external payable nonReentrant onlyRouter {
         // Update investment info
         Investment storage investment = getInvestment[investmentId];
-        require(
-            investment.trader == trader && !investment.completed,
-            "GefionVault: invalid investment"
-        );
+        require(investment.trader == trader, "GefionVault: invalid investment");
+        require(!investment.completed, "GefionVault: invesment is completed");
         investment.repayAmount = amount;
         investment.completed = true;
 
