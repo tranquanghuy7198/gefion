@@ -112,7 +112,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     function invest(
         address investor,
         uint256 amount
-    ) external payable onlyRouter nonReentrant {
+    ) external payable nonReentrant onlyRouter {
         capital += amount;
         _mint(investor, amount);
         if (currency == address(0)) {
@@ -131,7 +131,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     function redeem(
         address investor,
         uint256 liquidity
-    ) external onlyRouter nonReentrant {
+    ) external nonReentrant onlyRouter {
         uint256 receivableAmount = receivable(liquidity);
         _burn(investor, liquidity);
         if (currency == address(0)) {
@@ -146,7 +146,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     function borrow(
         address trader,
         uint256 amount
-    ) external onlyRouter nonReentrant {
+    ) external nonReentrant onlyRouter {
         require(_isTrader[trader], "GefionVault: Not GefionVault trader");
         bytes32 investmentId = keccak256(
             abi.encodePacked(trader, amount, block.timestamp)
@@ -172,7 +172,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address trader,
         bytes32 investmentId,
         uint256 amount
-    ) external payable onlyRouter nonReentrant {
+    ) external payable nonReentrant onlyRouter {
         // Update investment info
         Investment storage investment = getInvestment[investmentId];
         require(
