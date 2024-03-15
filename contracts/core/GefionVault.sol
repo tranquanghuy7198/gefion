@@ -20,7 +20,7 @@ contract GefionVault is IGefionVault, GefionToken {
     address public owner;
     address public factory;
     address public router;
-    IERC20 public currency;
+    address public currency;
     uint256 public creationTime;
     uint256 public capital;
     int256 public interest;
@@ -45,7 +45,7 @@ contract GefionVault is IGefionVault, GefionToken {
         );
         owner = creator;
         factory = msg.sender;
-        currency = IERC20(currency_);
+        currency = currency_;
         router = router_;
         creationTime = block.timestamp;
         traderSharingRate = traderSharingRate_;
@@ -79,7 +79,9 @@ contract GefionVault is IGefionVault, GefionToken {
     }
 
     function receivable(uint256 liquidity) public view returns (uint256) {
-        return (liquidity * currency.balanceOf(address(this))) / totalSupply();
+        return
+            (liquidity * IERC20(currency).balanceOf(address(this))) /
+            totalSupply();
     }
 
     // Vault owner adds new traders
@@ -105,17 +107,34 @@ contract GefionVault is IGefionVault, GefionToken {
     }
 
     // Investor invests and receives liquidity
-    function invest(address investor, uint256 amount) external onlyRouter {
+    function invest(
+        address investor,
+        uint256 amount
+    ) external payable onlyRouter {
         capital += amount;
         _mint(investor, amount);
-        currency.safeTransferFrom(investor, address(this), amount);
+        if (currency == address(0)) {
+            require(msg.value >= amount, "GefionVault: insufficient payment");
+            if (msg.value > amount) {
+                (bool success, ) = payable(investor).call{
+                    value: msg.value - amount
+                }("");
+                require(success, "GefionVault: failed to return excess");
+            }
+        } else
+            IERC20(currency).safeTransferFrom(investor, address(this), amount);
     }
 
     // Investor redeems liquidity and receives money
     function redeem(address investor, uint256 liquidity) external onlyRouter {
         uint256 receivableAmount = receivable(liquidity);
         _burn(investor, liquidity);
-        currency.safeTransfer(investor, receivableAmount);
+        if (currency == address(0)) {
+            (bool success, ) = payable(investor).call{value: receivableAmount}(
+                ""
+            );
+            require(success, "GefionVault: failed to redeem");
+        } else IERC20(currency).safeTransfer(investor, receivableAmount);
     }
 
     // Trader borrows money from the vault to trade
@@ -134,7 +153,10 @@ contract GefionVault is IGefionVault, GefionToken {
         getInvestment[investmentId] = investment;
         _investmentsOf[trader].push(investmentId);
         _allInvestments.push(investmentId);
-        currency.safeTransfer(trader, amount);
+        if (currency == address(0)) {
+            (bool success, ) = payable(trader).call{value: amount}("");
+            require(success, "GefionVault: failed to borrow");
+        } else IERC20(currency).safeTransfer(trader, amount);
     }
 
     // Trader repays the vault
@@ -142,7 +164,7 @@ contract GefionVault is IGefionVault, GefionToken {
         address trader,
         bytes32 investmentId,
         uint256 amount
-    ) external onlyRouter {
+    ) external payable onlyRouter {
         // Update investment info
         Investment storage investment = getInvestment[investmentId];
         require(
@@ -163,10 +185,22 @@ contract GefionVault is IGefionVault, GefionToken {
         interest +=
             int256(investment.repayAmount) -
             int256(investment.borrowAmount);
-        currency.safeTransferFrom(
-            trader,
-            address(this),
-            amount - traderBenefit
-        );
+        if (currency == address(0)) {
+            require(
+                msg.value >= amount - traderBenefit,
+                "GefionVault: insufficient payment"
+            );
+            if (msg.value > amount - traderBenefit) {
+                (bool success, ) = payable(trader).call{
+                    value: msg.value - amount + traderBenefit
+                }("");
+                require(success, "GefionVault: failed to return excess");
+            }
+        } else
+            IERC20(currency).safeTransferFrom(
+                trader,
+                address(this),
+                amount - traderBenefit
+            );
     }
 }

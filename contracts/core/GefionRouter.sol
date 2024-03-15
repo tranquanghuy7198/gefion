@@ -44,12 +44,12 @@ contract GefionRouter is Ownable {
         address vaultOwner,
         address vaultCurrency,
         uint256 amount
-    ) external {
+    ) external payable {
         address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IGefionVault(vault).invest(msg.sender, amount);
+        IGefionVault(vault).invest{value: msg.value}(msg.sender, amount);
     }
 
     function redeem(
@@ -81,11 +81,15 @@ contract GefionRouter is Ownable {
         address vaultCurrency,
         bytes32 investmentId,
         uint256 amount
-    ) external {
+    ) external payable {
         address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IGefionVault(vault).repay(msg.sender, investmentId, amount);
+        IGefionVault(vault).repay{value: msg.value}(
+            msg.sender,
+            investmentId,
+            amount
+        );
     }
 }
