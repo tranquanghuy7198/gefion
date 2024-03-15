@@ -18,14 +18,14 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         bool completed;
     }
 
-    address public owner;
-    address public factory;
-    address public router;
-    address public currency;
-    uint256 public creationTime;
+    address public immutable owner;
+    address public immutable factory;
+    address public immutable router;
+    address public immutable currency;
+    uint256 public immutable creationTime;
+    uint256 public immutable traderSharingRate;
     uint256 public capital;
     int256 public interest;
-    uint256 public traderSharingRate;
     mapping(bytes32 => Investment) public getInvestment;
 
     bytes32[] private _allInvestments;

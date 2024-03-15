@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract GefionRouter is Ownable {
     using SafeERC20 for IERC20;
 
-    address public factory;
+    address public immutable factory;
 
     constructor(address factory_) {
         require(msg.sender == Ownable(factory_).owner());
