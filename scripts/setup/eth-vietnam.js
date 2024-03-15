@@ -1,8 +1,8 @@
 const hre = require("hardhat");
 const deployInfo = require("../../deploy.json");
 
-const ROUTER = "contracts/core/HeimdallrRouter.sol:HeimdallrRouter";
-const FACTORY = "contracts/core/OdinFactory.sol:OdinFactory";
+const ROUTER = "contracts/core/GefionRouter.sol:GefionRouter";
+const FACTORY = "contracts/core/GefionFactory.sol:GefionFactory";
 
 const setup = async () => {
   // Info

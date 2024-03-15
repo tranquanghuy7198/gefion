@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.15;
 
-import "../interfaces/IOdinFactory.sol";
-import "./FreyrVault.sol";
+import "../interfaces/IGefionFactory.sol";
+import "./GefionVault.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract OdinFactory is IOdinFactory, Ownable {
+contract GefionFactory is IGefionFactory, Ownable {
     address public router;
     address[] public allPools;
     mapping(address => mapping(address => address)) public override getVault;
@@ -29,10 +29,10 @@ contract OdinFactory is IOdinFactory, Ownable {
     ) external returns (address) {
         require(
             getVault[msg.sender][currency] == address(0),
-            "OdinFactory: vault exists"
+            "GefionFactory: vault exists"
         );
         bytes32 salt = keccak256(abi.encodePacked(currency, msg.sender));
-        FreyrVault vault = new FreyrVault{salt: salt}(
+        GefionVault vault = new GefionVault{salt: salt}(
             msg.sender,
             currency,
             name,

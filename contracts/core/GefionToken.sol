@@ -3,9 +3,9 @@
 pragma solidity ^0.8.15;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "../interfaces/IThorToken.sol";
+import "../interfaces/IGefionToken.sol";
 
-abstract contract ThorToken is IThorToken, ERC20 {
+abstract contract GefionToken is IGefionToken, ERC20 {
     bytes32 public override DOMAIN_SEPARATOR;
     // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
     bytes32 public constant override PERMIT_TYPEHASH =
@@ -39,7 +39,7 @@ abstract contract ThorToken is IThorToken, ERC20 {
         bytes32 r,
         bytes32 s
     ) external override {
-        require(deadline >= block.timestamp, "LokiToken: EXPIRED");
+        require(deadline >= block.timestamp, "GefionToken: EXPIRED");
         bytes32 digest = keccak256(
             abi.encodePacked(
                 "\x19\x01",
@@ -59,7 +59,7 @@ abstract contract ThorToken is IThorToken, ERC20 {
         address recoveredAddress = ecrecover(digest, v, r, s);
         require(
             recoveredAddress != address(0) && recoveredAddress == owner,
-            "LokiToken: INVALID_SIGNATURE"
+            "GefionToken: INVALID_SIGNATURE"
         );
         _approve(owner, spender, value);
     }

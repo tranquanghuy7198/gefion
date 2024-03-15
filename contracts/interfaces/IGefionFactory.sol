@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.15;
 
-interface IOdinFactory {
+interface IGefionFactory {
     event VaultCreated(address vault, address owner, address currency);
 
     function getVault(

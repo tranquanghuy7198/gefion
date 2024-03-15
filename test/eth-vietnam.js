@@ -3,9 +3,9 @@ require("@nomiclabs/hardhat-ethers");
 const hre = require("hardhat");
 const { expect } = require("chai");
 const { soliditySha3 } = require("web3-utils");
-const VAULT = "FreyrVault";
-const ROUTER = "HeimdallrRouter";
-const FACTORY = "OdinFactory";
+const VAULT = "GefionVault";
+const ROUTER = "GefionRouter";
+const FACTORY = "GefionFactory";
 const USDT = "USDT";
 
 before("Deploy contracts", async () => {

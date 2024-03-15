@@ -4,7 +4,7 @@ pragma solidity ^0.8.15;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-interface IThorToken is IERC20 {
+interface IGefionToken is IERC20 {
     event Mint(address indexed sender, uint256 amount0, uint256 amount1);
     event Burn(
         address indexed sender,

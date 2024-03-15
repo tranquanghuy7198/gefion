@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.15;
 
-interface IFreyrVault {
+interface IGefionVault {
     function addTraders(
         address vaultOwner,
         address[] calldata traders

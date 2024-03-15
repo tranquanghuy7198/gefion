@@ -2,13 +2,13 @@
 
 pragma solidity ^0.8.15;
 
-import "../interfaces/IOdinFactory.sol";
-import "../interfaces/IThorToken.sol";
-import "../interfaces/IFreyrVault.sol";
+import "../interfaces/IGefionFactory.sol";
+import "../interfaces/IGefionToken.sol";
+import "../interfaces/IGefionVault.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract HeimdallrRouter is Ownable {
+contract GefionRouter is Ownable {
     using SafeERC20 for IERC20;
 
     address public factory;
@@ -22,22 +22,22 @@ contract HeimdallrRouter is Ownable {
         address vaultCurrency,
         address[] memory traders
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             msg.sender,
             vaultCurrency
         );
-        IFreyrVault(vault).addTraders(msg.sender, traders);
+        IGefionVault(vault).addTraders(msg.sender, traders);
     }
 
     function removeTraders(
         address vaultCurrency,
         address[] memory traders
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             msg.sender,
             vaultCurrency
         );
-        IFreyrVault(vault).removeTraders(msg.sender, traders);
+        IGefionVault(vault).removeTraders(msg.sender, traders);
     }
 
     function invest(
@@ -45,11 +45,11 @@ contract HeimdallrRouter is Ownable {
         address vaultCurrency,
         uint256 amount
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IFreyrVault(vault).invest(msg.sender, amount);
+        IGefionVault(vault).invest(msg.sender, amount);
     }
 
     function redeem(
@@ -57,11 +57,11 @@ contract HeimdallrRouter is Ownable {
         address vaultCurrency,
         uint256 liquidity
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IFreyrVault(vault).redeem(msg.sender, liquidity);
+        IGefionVault(vault).redeem(msg.sender, liquidity);
     }
 
     function borrow(
@@ -69,11 +69,11 @@ contract HeimdallrRouter is Ownable {
         address vaultCurrency,
         uint256 amount
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IFreyrVault(vault).borrow(msg.sender, amount);
+        IGefionVault(vault).borrow(msg.sender, amount);
     }
 
     function repay(
@@ -82,10 +82,10 @@ contract HeimdallrRouter is Ownable {
         bytes32 investmentId,
         uint256 amount
     ) external {
-        address vault = IOdinFactory(factory).getVault(
+        address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IFreyrVault(vault).repay(msg.sender, investmentId, amount);
+        IGefionVault(vault).repay(msg.sender, investmentId, amount);
     }
 }

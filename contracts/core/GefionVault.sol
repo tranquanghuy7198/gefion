@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.15;
 
-import "../interfaces/IFreyrVault.sol";
-import "./ThorToken.sol";
+import "../interfaces/IGefionVault.sol";
+import "./GefionToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract FreyrVault is IFreyrVault, ThorToken {
+contract GefionVault is IGefionVault, GefionToken {
     using SafeERC20 for IERC20;
 
     struct Investment {
@@ -38,10 +38,10 @@ contract FreyrVault is IFreyrVault, ThorToken {
         string memory symbol, // Vault liquidity symbol
         uint256 traderSharingRate_,
         address router_
-    ) ThorToken(name, symbol) {
+    ) GefionToken(name, symbol) {
         require(
             traderSharingRate_ < 10000,
-            "FreyrVault: sharing rate is too high"
+            "GefionVault: sharing rate is too high"
         );
         owner = creator;
         factory = msg.sender;
@@ -52,7 +52,7 @@ contract FreyrVault is IFreyrVault, ThorToken {
     }
 
     modifier onlyRouter() {
-        require(msg.sender == router, "FreyrVault: caller is not router");
+        require(msg.sender == router, "GefionVault: caller is not router");
         _;
     }
 
@@ -87,7 +87,7 @@ contract FreyrVault is IFreyrVault, ThorToken {
         address vaultOwner,
         address[] calldata traders
     ) external onlyRouter {
-        require(vaultOwner == owner, "FreyrVault: caller is not owner");
+        require(vaultOwner == owner, "GefionVault: caller is not owner");
         for (uint256 i = 0; i < traders.length; i++) {
             _isTrader[traders[i]] = true;
         }
@@ -98,7 +98,7 @@ contract FreyrVault is IFreyrVault, ThorToken {
         address vaultOwner,
         address[] calldata traders
     ) external onlyRouter {
-        require(vaultOwner == owner, "FreyrVault: caller is not owner");
+        require(vaultOwner == owner, "GefionVault: caller is not owner");
         for (uint256 i = 0; i < traders.length; i++) {
             _isTrader[traders[i]] = false;
         }
@@ -120,7 +120,7 @@ contract FreyrVault is IFreyrVault, ThorToken {
 
     // Trader borrows money from the vault to trade
     function borrow(address trader, uint256 amount) external onlyRouter {
-        require(_isTrader[trader], "FreyrVault: Not FreyrVault trader");
+        require(_isTrader[trader], "GefionVault: Not GefionVault trader");
         bytes32 investmentId = keccak256(
             abi.encodePacked(trader, amount, block.timestamp)
         );
@@ -147,7 +147,7 @@ contract FreyrVault is IFreyrVault, ThorToken {
         Investment storage investment = getInvestment[investmentId];
         require(
             investment.trader == trader && !investment.completed,
-            "FreyrVault: invalid investment"
+            "GefionVault: invalid investment"
         );
         investment.repayAmount = amount;
         investment.completed = true;
