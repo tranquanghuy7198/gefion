@@ -61,8 +61,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         Investment[] memory investments = new Investment[](
             _allInvestments.length
         );
-        for (uint256 i = 0; i < _allInvestments.length; i++) {
-            investments[i] = getInvestment[_allInvestments[i]];
+        unchecked {
+            for (uint256 i = 0; i < _allInvestments.length; i++) {
+                investments[i] = getInvestment[_allInvestments[i]];
+            }
         }
         return investments;
     }
@@ -73,8 +75,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         Investment[] memory investments = new Investment[](
             _investmentsOf[trader].length
         );
-        for (uint256 i = 0; i < _investmentsOf[trader].length; i++) {
-            investments[i] = getInvestment[_investmentsOf[trader][i]];
+        unchecked {
+            for (uint256 i = 0; i < _investmentsOf[trader].length; i++) {
+                investments[i] = getInvestment[_investmentsOf[trader][i]];
+            }
         }
         return investments;
     }
@@ -92,8 +96,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address[] calldata traders
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
-        for (uint256 i = 0; i < traders.length; i++) {
-            _isTrader[traders[i]] = true;
+        unchecked {
+            for (uint256 i = 0; i < traders.length; i++) {
+                _isTrader[traders[i]] = true;
+            }
         }
     }
 
@@ -103,8 +109,10 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         address[] calldata traders
     ) external onlyRouter {
         require(vaultOwner == owner, "GefionVault: caller is not owner");
-        for (uint256 i = 0; i < traders.length; i++) {
-            _isTrader[traders[i]] = false;
+        unchecked {
+            for (uint256 i = 0; i < traders.length; i++) {
+                _isTrader[traders[i]] = false;
+            }
         }
     }
 
