@@ -8,13 +8,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GefionFactory is IGefionFactory, Ownable {
     address public router;
-    address[] public allPools;
     mapping(address => mapping(address => address)) public override getVault;
+    address[] private _allVaults;
 
     constructor() Ownable() {}
 
-    function allPoolsLength() external view returns (uint256) {
-        return allPools.length;
+    function allVaults() external view returns (address[] memory) {
+        return _allVaults;
     }
 
     function setRouter(address router_) external onlyOwner {
@@ -40,7 +40,7 @@ contract GefionFactory is IGefionFactory, Ownable {
             traderSharingRate,
             router
         );
-        allPools.push(address(vault));
+        _allVaults.push(address(vault));
         getVault[msg.sender][currency] = address(vault);
         emit VaultCreated(address(vault), msg.sender, currency);
         return address(vault);
