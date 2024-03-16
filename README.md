@@ -1,4 +1,4 @@
-![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/0aaa9d2a-89ef-452a-80a3-4078548216d6)# GEFION
+# GEFION
 
 ## About this project
 
