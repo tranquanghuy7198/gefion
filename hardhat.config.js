@@ -29,6 +29,7 @@ const KARDIACHAIN_TESTNET_PROVIDER = process.env.KARDIACHAIN_TESTNET_PROVIDER;
 const KLAYTN_BAOBAB_PROVIDER = process.env.KLAYTN_BAOBAB_PROVIDER;
 const ARBITRUM_GOERLI_PROVIDER = process.env.ARBITRUM_GOERLI_PROVIDER;
 const OPTIMISM_GOERLI_PROVIDER = process.env.OPTIMISM_GOERLI_PROVIDER;
+const LINEA_GOERLI_PROVIDER = process.env.LINEA_GOERLI_PROVIDER;
 
 // API key
 const BSC_API_KEY = process.env.BSC_API_KEY;
@@ -37,6 +38,7 @@ const POLYGON_API_KEY = process.env.POLYGON_API_KEY;
 const AVALANCHE_API_KEY = process.env.AVALANCHE_API_KEY;
 const ARBISCAN_API_KEY = process.env.ARBISCAN_API_KEY;
 const OPTIMISM_API_KEY = process.env.OPTIMISM_API_KEY;
+const LINEA_API_KEY = process.LINEA_API_KEY;
 
 // Account info
 const ADDRESS = process.env.ADDRESS;
@@ -172,6 +174,12 @@ module.exports = {
       gas: 5500000,
       accounts: { mnemonic: MNEMONIC }
     },
+    lineagoerli: {
+      url: LINEA_GOERLI_PROVIDER,
+      chainId: 59140,
+      gas: 5500000,
+      accounts: { mnemonic: MNEMONIC }
+    },
     hardhat: {
       accounts: { mnemonic: MNEMONIC },
       gasLimit: 6000000000,
@@ -185,7 +193,7 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: BSC_API_KEY
+    apiKey: LINEA_API_KEY
   },
   solidity: {
     version: "0.8.24",

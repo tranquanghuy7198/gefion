@@ -3,5 +3,10 @@
 		"contracts/core/GefionFactory.sol:GefionFactory": "0xdF1EC22e10a65b4C8A038EcB4905867722F139Ac",
 		"contracts/core/GefionRouter.sol:GefionRouter": "0x0E7826B6D723387Cdacf0d01d616660D60972038",
 		"contracts/token/USDT.sol:USDT": "0xceee792CA7360c564Aab93a45599C235095Cf4D0"
+	},
+	"lineagoerli": {
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x546a7611aC16E30d95d36c05c9fF66f4D6245421",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x53cCF53429AD3922aEd4890a7F70A664dD597BE5",
+		"contracts/token/USDT.sol:USDT": "0xA9e9d3609f8466071E532E8b616783c28590daB4"
 	}
 }

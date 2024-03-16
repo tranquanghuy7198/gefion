@@ -142,8 +142,11 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
                 }("");
                 require(success, "GefionVault: failed to return excess");
             }
-        } else
+        } else {
             IERC20(currency).safeTransferFrom(investor, address(this), amount);
+            (bool success, ) = payable(investor).call{value: msg.value}("");
+            require(success, "GefionVault: failed to return excess");
+        }
     }
 
     // Investor redeems liquidity and receives money
@@ -225,11 +228,14 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
                 }("");
                 require(success, "GefionVault: failed to return excess");
             }
-        } else
+        } else {
             IERC20(currency).safeTransferFrom(
                 trader,
                 address(this),
                 amount - traderBenefit
             );
+            (bool success, ) = payable(trader).call{value: msg.value}("");
+            require(success, "GefionVault: failed to return excess");
+        }
     }
 }
