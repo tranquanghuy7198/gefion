@@ -79,8 +79,9 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
             targetedCurrency
         );
         address token0 = ISwapPair(dexPair).token0();
-        (uint112 reserve0, uint112 reserve1, ) = ISwapPair(dexPair)
-            .getReserves();
+        (uint112 r0, uint112 r1, ) = ISwapPair(dexPair).getReserves();
+        uint256 reserve0 = uint256(r0);
+        uint256 reserve1 = uint256(r1);
         if (token0 == currency)
             return reserve1 - (reserve0 * reserve1) / (reserve0 + amount);
         else return reserve0 - (reserve0 * reserve1) / (reserve1 + amount);

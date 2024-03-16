@@ -15,9 +15,9 @@
 		"contracts/token/USDT.sol:USDT": "0xc090Dd71f54f33627EA1b18eB1a3c4E99bfc8fc4"
 	},
 	"polygontestnet": {
-		"contracts/core/GefionFactory.sol:GefionFactory": "0x74Bb51554e4a02dD478Ad79970123109cB76f109",
-		"contracts/core/GefionRouter.sol:GefionRouter": "0x40bCf9f50ab7E4e394387daf5bd470F517362218",
-		"contracts/token/USDT.sol:USDT": "0x0e3c8446D08B90E9d1C37eB501A4C629e318b786",
-		"contracts/core/GefionVault.sol:GefionVault": "0xfAf6Ef0A0D509bFB089D2dA67F7CCf5C1549FA74"
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x8175e9fb38554817DD459b2CC63e81d0C77d78f4",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x2c6efFf02eD889559858AE8f6767BF91C1f599b5",
+		"contracts/token/USDT.sol:USDT": "0xeaf91109f4e533A74e67Da2Eb3c3E27B19136769",
+		"contracts/core/GefionVault.sol:GefionVault": "0xc4697176e8B727F9589bE71C44e2d4cF2eAF52BB"
 	}
 }
