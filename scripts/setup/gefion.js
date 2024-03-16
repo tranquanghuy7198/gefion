@@ -3,7 +3,9 @@ const deployInfo = require("../../deploy.json");
 
 const ROUTER = "contracts/core/GefionRouter.sol:GefionRouter";
 const FACTORY = "contracts/core/GefionFactory.sol:GefionFactory";
-const DEX_ROUTERS = ["0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"]; // Polygon Mumbai DEX Routers
+const DEX_ROUTERS = [
+  "0x7a54bbb93d7982d7c4810e60dbf16974231E6130" // PancakeSwap Router on Polygon Mumbai
+];
 
 const setup = async () => {
   // Info
