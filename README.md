@@ -1,8 +1,8 @@
-# GEFION
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/0aaa9d2a-89ef-452a-80a3-4078548216d6)# GEFION
 
 ## About this project
 
-This is a Gefion project.
+Gefion serves as a decentralized protocol built on the Ethereum network, facilitating on-chain assets management. It offers individuals and organizations a secure and adaptable platform for overseeing their own finances as well as those of others. Gefion grants the capability to create, administer, and invest in tailor-made on-chain financial instruments.
 
 ## Project structure
 
