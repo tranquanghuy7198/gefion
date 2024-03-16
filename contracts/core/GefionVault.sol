@@ -5,6 +5,8 @@ pragma solidity 0.8.24;
 import "../interfaces/IGefionFactory.sol";
 import "../interfaces/IGefionVault.sol";
 import "../interfaces/ISwapRouter.sol";
+import "../interfaces/ISwapPair.sol";
+import "../interfaces/ISwapFactory.sol";
 import "./GefionToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -60,6 +62,28 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
 
     function receivable(uint256 liquidity) public pure returns (uint256) {
         return liquidity;
+    }
+
+    function estimateTradingResult(
+        uint256 amount, // The amount to trade
+        address dexRouterAddr,
+        address targetedCurrency // Swap vault currency to get `targetedCurrency`
+    ) external view returns (uint256) {
+        require(
+            factory.isDexRouterValid(dexRouterAddr),
+            "GefionVault: invalid DEX"
+        );
+        address dexFactory = ISwapRouter(dexRouterAddr).factory();
+        address dexPair = ISwapFactory(dexFactory).getPair(
+            currency,
+            targetedCurrency
+        );
+        address token0 = ISwapPair(dexPair).token0();
+        (uint112 reserve0, uint112 reserve1, ) = ISwapPair(dexPair)
+            .getReserves();
+        if (token0 == currency)
+            return reserve1 - (reserve0 * reserve1) / (reserve0 + amount);
+        else return reserve0 - (reserve0 * reserve1) / (reserve1 + amount);
     }
 
     // Vault owner adds new traders
