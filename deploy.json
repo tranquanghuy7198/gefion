@@ -8,5 +8,10 @@
 		"contracts/core/GefionFactory.sol:GefionFactory": "0x546a7611aC16E30d95d36c05c9fF66f4D6245421",
 		"contracts/core/GefionRouter.sol:GefionRouter": "0x53cCF53429AD3922aEd4890a7F70A664dD597BE5",
 		"contracts/token/USDT.sol:USDT": "0xA9e9d3609f8466071E532E8b616783c28590daB4"
+	},
+	"polygonzkblueberry": {
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x724582899A60f176D3323494A9f1f785E8CCD0A2",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0xb3935c4977Ad5B4B706b89cd0A7a5D87F815818A",
+		"contracts/token/USDT.sol:USDT": "0xc090Dd71f54f33627EA1b18eB1a3c4E99bfc8fc4"
 	}
 }

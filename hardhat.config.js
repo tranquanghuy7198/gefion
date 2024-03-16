@@ -23,6 +23,7 @@ const SEPOLIA_PROVIDER = process.env.SEPOLIA_PROVIDER;
 const BSC_TESTNET_PROVIDER = process.env.BSC_TESTNET_PROVIDER;
 const JAMCHAIN_TESTNET_PROVIDER = process.env.JAMCHAIN_TESTNET_PROVIDER;
 const POLYGON_TESTNET_PROVIDER = process.env.POLYGON_TESTNET_PROVIDER;
+const POLYGON_RPC_BLUEBERRY_PROVIDER = process.env.POLYGON_RPC_BLUEBERRY_PROVIDER;
 const RONIN_TESTNET_PROVIDER = process.env.RONIN_TESTNET_PROVIDER;
 const AVALANCHE_TESTNET_PROVIDER = process.env.AVALANCHE_TESTNET_PROVIDER;
 const KARDIACHAIN_TESTNET_PROVIDER = process.env.KARDIACHAIN_TESTNET_PROVIDER;
@@ -138,6 +139,12 @@ module.exports = {
       gas: 5500000,
       accounts: { mnemonic: MNEMONIC }
     },
+    polygonzkblueberry: {
+      url: POLYGON_RPC_BLUEBERRY_PROVIDER,
+      chainId: 1442,
+      gas: 5500000,
+      accounts: { mnemonic: MNEMONIC }
+    },
     ronintestnet: {
       url: RONIN_TESTNET_PROVIDER,
       chainId: 2021,
@@ -193,7 +200,7 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: LINEA_API_KEY
+    apiKey: POLYGON_API_KEY
   },
   solidity: {
     version: "0.8.24",
