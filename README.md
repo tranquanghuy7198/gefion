@@ -16,6 +16,18 @@ Gefion serves as a decentralized protocol built on the Ethereum network, facilit
 **SolidityScan**
 ![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/17d7600d-0523-4041-a245-39fbee06c962)
 
+##User Journey##
+###Vault Creation###
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/8160128c-91c4-458d-89fc-eaaddb9ff6af)
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/212e3162-e418-4865-862a-2982af66671e)
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/fe4fa5d9-9c78-48fa-bfb5-5a737e229b5d)
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/b24644a1-8078-490c-bc83-d13622ef0bc7)
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/92f5b338-f26f-46b3-8235-ee353f1faf26)
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/82c22ec0-23a4-4d41-813f-42328871e6bb)
+
+
+
+
 
 ## Project structure
 
