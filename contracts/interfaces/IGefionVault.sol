@@ -17,11 +17,10 @@ interface IGefionVault {
 
     function redeem(address user, uint256 liquidity) external;
 
-    function borrow(address trader, uint256 amount) external;
-
-    function repay(
+    function trade(
         address trader,
-        bytes32 investmentId,
-        uint256 amount
-    ) external payable;
+        uint256 amount,
+        address dexRouterAddr,
+        address targetedCurrency
+    ) external;
 }

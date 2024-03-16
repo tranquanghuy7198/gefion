@@ -118,56 +118,6 @@ describe("Test contracts", () => {
     expect(investorLiquidityBalance?.toString()).to.equal(hre.ethers.utils.parseEther("20"));
   });
 
-  it("Trader borrows 12 USDT", async () => {
-    const tx = await this.routerFactory
-      .connect(this.trader)
-      .attach(this.routerContract.address)
-      .borrow(
-        this.vaultOwner.address,
-        this.usdtContract.address,
-        hre.ethers.utils.parseEther("12")
-      );
-    // const events = (await tx.wait()).events;
-    // this.investmentId = events[0]?.args?.investmentId;
-    // console.log("XXX", events, this.investmentId);
-    const vaultUsdtBalance = await this.usdtContract.balanceOf(this.vaultContract.address);
-    const receivable = await this.vaultContract.receivable(hre.ethers.utils.parseEther("20"));
-    expect(vaultUsdtBalance.toString()).to.equal(hre.ethers.utils.parseEther("8"));
-    expect(receivable.toString()).to.equal(hre.ethers.utils.parseEther("8"));
-  });
-
-  it("Trader repays 16 USDT", async () => {
-    const traderInvestmentHistory = await this.vaultContract.traderInvestmentHistory(this.trader.address);
-    await this.usdtFactory
-      .connect(this.trader)
-      .attach(this.usdtContract.address)
-      .approve(this.vaultContract.address, hre.ethers.utils.parseEther("16"));
-    await this.routerFactory
-      .connect(this.trader)
-      .attach(this.routerContract.address)
-      .repay(
-        this.vaultOwner.address,
-        this.usdtContract.address,
-        traderInvestmentHistory[0]?.id,
-        hre.ethers.utils.parseEther("16")
-      );
-    const vaultUsdtBalance = await this.usdtContract.balanceOf(this.vaultContract.address);
-    expect(vaultUsdtBalance.toString()).to.equal(hre.ethers.utils.parseEther("21"));
-  });
-
-  it("Investor redeems all liquidity", async () => {
-    await this.routerFactory
-      .connect(this.investor1)
-      .attach(this.routerContract.address)
-      .redeem(
-        this.vaultOwner.address,
-        this.usdtContract.address,
-        hre.ethers.utils.parseEther("20")
-      );
-    const investorUsdtBalance = await this.usdtContract.balanceOf(this.investor1.address);
-    expect(investorUsdtBalance.toString()).to.equal(hre.ethers.utils.parseEther("1001"));
-  });
-
   it("Investor invests 15 ETH", async () => {
     await this.routerFactory
       .connect(this.investor2)
@@ -182,45 +132,5 @@ describe("Test contracts", () => {
     const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
     expect(routerNativeBalance.toString()).to.equal("0");
     expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("15"));
-  });
-
-  it("Trader borrows 5 ETH", async () => {
-    await this.routerFactory
-      .connect(this.trader)
-      .attach(this.routerContract.address)
-      .borrow(
-        this.vaultOwner.address,
-        ZERO_ADDRESS,
-        hre.ethers.utils.parseEther("5")
-      );
-    const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
-    expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("10"));
-  });
-
-  it("Trader repays 4 ETH", async () => {
-    const traderInvestmentHistory = await this.nativeVaultContract.traderInvestmentHistory(this.trader.address);
-    await this.routerFactory
-      .connect(this.trader)
-      .attach(this.routerContract.address)
-      .repay(
-        this.vaultOwner.address,
-        ZERO_ADDRESS,
-        traderInvestmentHistory[0]?.id,
-        hre.ethers.utils.parseEther("4"),
-        { value: hre.ethers.utils.parseEther("4") }
-      );
-    const vaultNativeBalance = await hre.waffle.provider.getBalance(this.nativeVaultContract.address);
-    expect(vaultNativeBalance.toString()).to.equal(hre.ethers.utils.parseEther("14"));
-  });
-
-  it("Investor redeems all liquidity", async () => {
-    await this.routerFactory
-      .connect(this.investor2)
-      .attach(this.routerContract.address)
-      .redeem(
-        this.vaultOwner.address,
-        ZERO_ADDRESS,
-        hre.ethers.utils.parseEther("15")
-      );
   });
 });

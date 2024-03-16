@@ -2,7 +2,9 @@
 
 pragma solidity 0.8.24;
 
+import "../interfaces/IGefionFactory.sol";
 import "../interfaces/IGefionVault.sol";
+import "../interfaces/ISwapRouter.sol";
 import "./GefionToken.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -21,7 +23,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     }
 
     address public immutable owner;
-    address public immutable factory;
+    IGefionFactory public immutable factory;
     address public immutable router;
     address public immutable currency;
     uint256 public immutable creationTime;
@@ -48,7 +50,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
             "GefionVault: sharing rate is too high"
         );
         owner = creator;
-        factory = msg.sender;
+        factory = IGefionFactory(msg.sender);
         currency = currency_;
         router = router_;
         creationTime = block.timestamp;
@@ -164,78 +166,47 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
         } else IERC20(currency).safeTransfer(investor, receivableAmount);
     }
 
-    // Trader borrows money from the vault to trade
-    function borrow(
+    // Traders borrows money from the vault, swaps and earns profit then repays to the vault
+    function trade(
         address trader,
-        uint256 amount
+        uint256 amount,
+        address dexRouterAddr,
+        address targetedCurrency // Swap vault currency to get `targetedCurrency`
     ) external nonReentrant onlyRouter {
+        // Validate
         require(
             _traders.contains(trader),
             "GefionVault: Not GefionVault trader"
         );
-        bytes32 investmentId = keccak256(
-            abi.encodePacked(trader, amount, block.timestamp)
+        require(
+            factory.isDexRouterValid(dexRouterAddr),
+            "GefionVault: invalid DEX"
         );
-        Investment memory investment = Investment(
-            investmentId,
-            trader,
-            amount,
-            0,
-            false
-        );
-        getInvestment[investmentId] = investment;
-        _investmentsOf[trader].push(investmentId);
-        _allInvestments.push(investmentId);
-        if (currency == address(0)) {
-            (bool success, ) = payable(trader).call{value: amount}("");
-            require(success, "GefionVault: failed to borrow");
-        } else IERC20(currency).safeTransfer(trader, amount);
-    }
 
-    // Trader repays the vault
-    function repay(
-        address trader,
-        bytes32 investmentId,
-        uint256 amount
-    ) external payable nonReentrant onlyRouter {
-        // Update investment info
-        Investment storage investment = getInvestment[investmentId];
-        require(investment.trader == trader, "GefionVault: invalid investment");
-        require(!investment.completed, "GefionVault: invesment is completed");
-        investment.repayAmount = amount;
-        investment.completed = true;
+        // Prepare DEX info
+        ISwapRouter dexRouter = ISwapRouter(dexRouterAddr);
+        address[] memory path = new address[](2);
+        path[0] = currency;
+        path[1] = targetedCurrency;
+        uint256 deadline = block.timestamp + 20 * 60;
 
-        // Share the benefit to the trader
-        uint256 traderBenefit = 0;
-        if (investment.repayAmount > investment.borrowAmount) {
-            traderBenefit =
-                ((investment.repayAmount - investment.borrowAmount) *
-                    traderSharingRate) /
-                10000;
-        }
-        interest =
-            interest +
-            int256(investment.repayAmount) -
-            int256(investment.borrowAmount);
-        if (currency == address(0)) {
-            require(
-                msg.value >= amount - traderBenefit,
-                "GefionVault: insufficient payment"
-            );
-            if (msg.value > amount - traderBenefit) {
-                (bool success, ) = payable(trader).call{
-                    value: msg.value - amount + traderBenefit
-                }("");
-                require(success, "GefionVault: failed to return excess");
-            }
-        } else {
-            IERC20(currency).safeTransferFrom(
-                trader,
+        // Trade
+        if (currency == address(0))
+            dexRouter.swapExactETHForTokens{value: amount}(
+                0,
+                path,
                 address(this),
-                amount - traderBenefit
+                deadline
             );
-            (bool success, ) = payable(trader).call{value: msg.value}("");
-            require(success, "GefionVault: failed to return excess");
+        else {
+            IERC20(currency).approve(dexRouterAddr, amount);
+            dexRouter.swapExactTokensForTokens(
+                amount,
+                0,
+                path,
+                address(this),
+                deadline
+            );
         }
     }
 }

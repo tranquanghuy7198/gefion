@@ -66,32 +66,22 @@ contract GefionRouter {
         IGefionVault(vault).redeem(msg.sender, liquidity);
     }
 
-    function borrow(
+    function trade(
         address vaultOwner,
         address vaultCurrency,
-        uint256 amount
+        uint256 amount,
+        address dexRouterAddr,
+        address targetedCurrency
     ) external {
         address vault = IGefionFactory(factory).getVault(
             vaultOwner,
             vaultCurrency
         );
-        IGefionVault(vault).borrow(msg.sender, amount);
-    }
-
-    function repay(
-        address vaultOwner,
-        address vaultCurrency,
-        bytes32 investmentId,
-        uint256 amount
-    ) external payable {
-        address vault = IGefionFactory(factory).getVault(
-            vaultOwner,
-            vaultCurrency
-        );
-        IGefionVault(vault).repay{value: msg.value}(
+        IGefionVault(vault).trade(
             msg.sender,
-            investmentId,
-            amount
+            amount,
+            dexRouterAddr,
+            targetedCurrency
         );
     }
 }
