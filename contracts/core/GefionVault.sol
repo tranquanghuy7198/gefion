@@ -14,14 +14,6 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     using SafeERC20 for IERC20;
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    struct Investment {
-        bytes32 id;
-        address trader;
-        uint256 borrowAmount;
-        uint256 repayAmount;
-        bool completed;
-    }
-
     address public immutable owner;
     IGefionFactory public immutable factory;
     address public immutable router;
@@ -29,11 +21,7 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
     uint256 public immutable creationTime;
     uint256 public immutable traderSharingRate;
     uint256 public capital;
-    int256 public interest;
-    mapping(bytes32 => Investment) public getInvestment;
 
-    bytes32[] private _allInvestments;
-    mapping(address => bytes32[]) private _investmentsOf;
     EnumerableSet.AddressSet private _traders;
     EnumerableSet.AddressSet private _investors;
 
@@ -68,30 +56,6 @@ contract GefionVault is IGefionVault, GefionToken, ReentrancyGuard {
 
     function listInvestors() external view returns (address[] memory) {
         return _investors.values();
-    }
-
-    function investmentHistory() external view returns (Investment[] memory) {
-        Investment[] memory investments = new Investment[](
-            _allInvestments.length
-        );
-        unchecked {
-            for (uint256 i = 0; i < _allInvestments.length; ++i)
-                investments[i] = getInvestment[_allInvestments[i]];
-        }
-        return investments;
-    }
-
-    function traderInvestmentHistory(
-        address trader
-    ) external view returns (Investment[] memory) {
-        Investment[] memory investments = new Investment[](
-            _investmentsOf[trader].length
-        );
-        unchecked {
-            for (uint256 i = 0; i < _investmentsOf[trader].length; ++i)
-                investments[i] = getInvestment[_investmentsOf[trader][i]];
-        }
-        return investments;
     }
 
     function receivable(uint256 liquidity) public pure returns (uint256) {
