@@ -4,6 +4,19 @@
 
 Gefion serves as a decentralized protocol built on the Ethereum network, facilitating on-chain assets management. It offers individuals and organizations a secure and adaptable platform for overseeing their own finances as well as those of others. Gefion grants the capability to create, administer, and invest in tailor-made on-chain financial instruments.
 
+## Supported Network ##
+
+- BNB
+- Polygon
+- Linea
+- ETH
+
+## Hackathon Bounty ##
+
+**SolidityScan**
+![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/17d7600d-0523-4041-a245-39fbee06c962)
+
+
 ## Project structure
 
 ### Solidity contracts
