@@ -18,6 +18,7 @@ Gefion serves as a decentralized protocol built on the Ethereum network, facilit
 ![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/17d7600d-0523-4041-a245-39fbee06c962)
 
 ##User Journey##
+
 ###Vault Creation###
 
 ![image](https://github.com/tranquanghuy7198/gefion/assets/24476347/8160128c-91c4-458d-89fc-eaaddb9ff6af)
