@@ -17,6 +17,6 @@
 	"polygontestnet": {
 		"contracts/core/GefionFactory.sol:GefionFactory": "0x5bDcacD02A055E9894041eE25eEFa13EF4370F8e",
 		"contracts/core/GefionRouter.sol:GefionRouter": "0x21e549cD538F13d4670BcEE93b7ae89D9f4Ba8CF",
-		"contracts/token/USDT.sol:USDT": "0xBcb8413B53e944DD087ff93d579f5e42d2A5D59D"
+		"contracts/token/USDT.sol:USDT": "0x4a7cdB174c3054a3c36E8a3eb76F2Ce47E3Ac17C"
 	}
 }
