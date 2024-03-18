@@ -5,19 +5,28 @@
 		"contracts/token/USDT.sol:USDT": "0xceee792CA7360c564Aab93a45599C235095Cf4D0"
 	},
 	"lineagoerli": {
-		"contracts/core/GefionFactory.sol:GefionFactory": "0x546a7611aC16E30d95d36c05c9fF66f4D6245421",
-		"contracts/core/GefionRouter.sol:GefionRouter": "0x53cCF53429AD3922aEd4890a7F70A664dD597BE5",
-		"contracts/token/USDT.sol:USDT": "0xA9e9d3609f8466071E532E8b616783c28590daB4"
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x3193C3a70012f3144432C9c4eDdFf40Eb7aa57D7",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x250Ef401EccDa66F37b170BF934D73eeb1d0B9b9",
+		"contracts/core/GefionVault.sol:GefionVault": "0x40c56EED2eaf3CA0B492db14490708BAa70DfF56",
+		"contracts/test/USDT.sol:USDT": "0x73f5F13311D969641d3515ac63c7eE31a61293c8",
+		"contracts/test/ADA.sol:ADA": "0xB8eF3a4933bf06DFcF362cDD0a0e968E62cBBfC3"
 	},
 	"polygonzkblueberry": {
-		"contracts/core/GefionFactory.sol:GefionFactory": "0x724582899A60f176D3323494A9f1f785E8CCD0A2",
-		"contracts/core/GefionRouter.sol:GefionRouter": "0xb3935c4977Ad5B4B706b89cd0A7a5D87F815818A",
-		"contracts/token/USDT.sol:USDT": "0xc090Dd71f54f33627EA1b18eB1a3c4E99bfc8fc4"
+		"contracts/core/GefionFactory.sol:GefionFactory": "0x3193C3a70012f3144432C9c4eDdFf40Eb7aa57D7",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x250Ef401EccDa66F37b170BF934D73eeb1d0B9b9",
+		"contracts/token/USDT.sol:USDT": "0x319632403ecF264FB3DB9ad89efCC8865187d891",
+		"contracts/core/GefionVault.sol:GefionVault": "0x40c56EED2eaf3CA0B492db14490708BAa70DfF56",
+		"contracts/test/USDT.sol:USDT": "0xB8eF3a4933bf06DFcF362cDD0a0e968E62cBBfC3",
+		"contracts/test/ADA.sol:ADA": "0xCa05A0A3cAF8Df006A67d9D3c47F18872222D212"
 	},
 	"polygontestnet": {
-		"contracts/core/GefionFactory.sol:GefionFactory": "0x8175e9fb38554817DD459b2CC63e81d0C77d78f4",
-		"contracts/core/GefionRouter.sol:GefionRouter": "0x2c6efFf02eD889559858AE8f6767BF91C1f599b5",
-		"contracts/token/USDT.sol:USDT": "0xeaf91109f4e533A74e67Da2Eb3c3E27B19136769",
-		"contracts/core/GefionVault.sol:GefionVault": "0xc4697176e8B727F9589bE71C44e2d4cF2eAF52BB"
+		"contracts/core/GefionFactory.sol:GefionFactory": "0xA72008c297ee1368d477E5724405757948A8a089",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x71dA76b462b301c5102C035A07A13395cFdE44Cb",
+		"contracts/token/USDT.sol:USDT": "0xF0beb5BeD873308Af41DB6dc35290a261C1E1f50",
+		"contracts/core/GefionVault.sol:GefionVault": "0x0B347F6C2949Ec4b3cd5E74Bd1a5dF035710A14b"
+	},
+	"polygon": {
+		"contracts/core/GefionFactory.sol:GefionFactory": "0xe6f52744A22deE5Ce59a9DfCFa2C54220c8E5E7a",
+		"contracts/core/GefionRouter.sol:GefionRouter": "0x5cDB5631b36FBE80BD21970444B064368f58EcFd"
 	}
 }

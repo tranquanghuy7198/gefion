@@ -1,9 +1,10 @@
 const baseDeploy = require("../base-deploy");
 
+const ADA = "contracts/test/ADA.sol:ADA";
+const USDT = "contracts/test/USDT.sol:USDT";
 const ROUTER = "contracts/core/GefionRouter.sol:GefionRouter";
 const FACTORY = "contracts/core/GefionFactory.sol:GefionFactory";
 const VAULT = "contracts/core/GefionVault.sol:GefionVault";
-const USDT = "contracts/token/USDT.sol:USDT";
 const DUMMY_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 let updateAddresses = (addresses) => {
@@ -18,6 +19,10 @@ let updateAddresses = (addresses) => {
     },
     {
       name: USDT,
+      constructorArgs: []
+    },
+    {
+      name: ADA,
       constructorArgs: []
     },
     {

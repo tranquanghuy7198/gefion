@@ -15,6 +15,7 @@ const RONIN_PROVIDER = process.env.RONIN_PROVIDER;
 const KARDIACHAIN_PROVIDER = process.env.KARDIACHAIN_PROVIDER;
 const KLAYTN_CYPRESS_PROVIDER = process.env.KLAYTN_CYPRESS_PROVIDER;
 const POLYGON_PROVIDER = process.env.POLYGON_PROVIDER;
+const LINEA_PROVIDER = process.env.LINEA_PROVIDER;
 
 // Testnet RPCs
 const RINKEBY_PROVIDER = process.env.RINKEBY_PROVIDER;
@@ -184,6 +185,12 @@ module.exports = {
     lineagoerli: {
       url: LINEA_GOERLI_PROVIDER,
       chainId: 59140,
+      gas: 5500000,
+      accounts: { mnemonic: MNEMONIC }
+    },
+    linea: {
+      url: LINEA_PROVIDER,
+      chainId: 59144,
       gas: 5500000,
       accounts: { mnemonic: MNEMONIC }
     },
